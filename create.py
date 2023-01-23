@@ -2,7 +2,8 @@ from quizpy import *
 import os
 
 def makeQuestions():
-    while True:
+    #while True:
+    pass
 
 
 def makeMC(mc):
