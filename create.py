@@ -1,6 +1,9 @@
-from quizpy import *
+from quizpy import Quiz, Category, MultipleChoice, ShortAnswer, Numerical
 import os
+import re
 
+quiz = Quiz()
+quizQuestions = quiz.add_category("example category")
 def makeQuestions():
     while True:
         title = input("What is the question title?: ")
@@ -8,9 +11,16 @@ def makeQuestions():
         points = float(input("How many points for getting this question correct?: "))
         clearScreen()
         while True:
-            qType = input("What kind of question do you want to make?: \n1) Multiple Choice\n2) Numerical\n3) Short Answer\n")
+            try:
+                qType = int(input("""What kind of question do you want to make?: 
+                1) Multiple Choice
+                2) Numerical
+                3) Short Answer\n"""))
+            except:
+                raise ValueError("input does not meet the conditions")
             clearScreen()
-            if intInRange(qType, 1, 3):
+
+            if 1 <= qType <= 3:
                 if qType == 1:
                     mc = MultipleChoice(title, question, points)
                     makeMC(mc)
@@ -29,46 +39,51 @@ def makeQuestions():
                     clearScreen()
                     break
 
-        done = input("Are you done creating questions?:\n1) Yes\n2) No\n")
-        if intInRange(done, 1, 2):
-            if done == "1":
+        try:
+            done = int(input("Are you done creating questions?:\n1) Yes\n2) No\n"))
+        except:
+            raise ValueError("Number did not match the input requirements")
+        if 1 <= done <= 2:
+            if done == 1:
                 clearScreen()
                 break
-            elif done == "2":
+            elif done == 2:
                 clearScreen()
+
+
+def exportXML(qz, fname, *qs):
+    qz.questions.extend(qs)
+
+    qz.export(fname)
 
 
 def makeMC(mc):
     while True:
         choice = input("Enter an answer choice: ")
-        correct = input("is this the correct answer?\n1) Yes\n2) No\n")
+        try:
+            correct = int(input("is this the correct answer?\n1) Yes\n2) No\n"))
+        except:
+            raise ValueError("Number did not meet input requirements")
         clearScreen()
-        if intInRange(correct, 1, 2):
-            if correct == "1":
+        if 1 <= correct <= 2:
+            if correct == 1:
                 mc.add_choice(choice, 100.0, "correct!")
-            elif correct == "2":
+            elif correct == 2:
                 mc.add_choice(choice, 0.0, "incorrect!")
-        done = input("Are you done inputting answer choices?\n1) Yes\n2) No\n")
-        if intInRange(done, 1, 2):
-            if done == "1":
+        try:
+            done = int(input("Are you done inputting answer choices?\n1) Yes\n2) No\n"))
+        except:
+            raise ValueError("Number did not meet the input requirements")
+        if 1 <= done <= 2:
+            if done == 1:
                 clearScreen()
                 break
-            elif done == "2":
+            elif done == 2:
                 clearScreen()
+
 
 def clearScreen():
     if os.name == "posix":
         os.system("clear")
     else:
         os.system("cls")
-
-def intInRange(num, start, stop):
-    try:
-        num = int(num)
-        if num < start or num > stop:
-            raise Exception("number is out of range")
-        return True
-    except:
-        return False
-
-makeQuestions()
