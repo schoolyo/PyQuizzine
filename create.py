@@ -61,7 +61,10 @@ def exportXML(qz, fname):
     fname = re.sub(" ", "_", fname.lower())
     for i in fname:
         if re.match(r"\W", i):
-            fname.replace(i, "", 1) # still need to make this so that filename always starts with an alphanumeric character
+            fname = fname.replace(i, "", 1)
+        else:
+            break
+    fname += ".xml"
     qz.export(fname)
 
 
