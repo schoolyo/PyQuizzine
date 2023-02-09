@@ -4,9 +4,9 @@ import re
 
 
 def makeQuestions():
-    quiz = Quiz()
+    q = Quiz()
     qName = input("What is the name of the quiz?: ")
-    quizName = quiz.add_category(qName)
+    qCategory = q.add_category(qName)
     while True:
         title = input("What is the question title?: ")
         question = input("What is the question?:")
@@ -26,21 +26,21 @@ def makeQuestions():
                 if qType == 1:
                     mc = MultipleChoice(title, question, points)
                     makeMC(mc)
-                    quizName.questions.append(mc)
+                    qCategory.questions.append(mc)
                     clearScreen()
                     break
                 elif qType == 2:
                     num = Numerical(title, question, points)
                     answer = float(input("What is the correct numerical answer?: "))  # maybe should do input checking on this line
                     num.add_answer(answer, 100.0, "Correct!")
-                    quizName.questions.append(num)
+                    qCategory.questions.append(num)
                     clearScreen()
                     break
                 elif qType == 3:
                     sa = ShortAnswer(title, question, points)
                     answer = input("What is the correct answer?: ")
                     sa.add_answer(answer, 100.0, "Correct!", "plain_text")
-                    quizName.questions.append(sa)
+                    qCategory.questions.append(sa)
                     clearScreen()
                     break
 
@@ -54,7 +54,7 @@ def makeQuestions():
                 break
             elif done == 2:
                 clearScreen()
-    return quizName
+    return q
 
 
 def exportXML(qz, fname):
