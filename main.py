@@ -1,5 +1,3 @@
-import create
-import loading
 
 while True:
     try:
@@ -8,15 +6,14 @@ while True:
             2) Creating
             3) Visualizing
             """))
-        if choice == 1:
-            # Loading code here
-            pass
-        elif choice == 2:
-            # Creating code here
-            pass
-        elif choice == 3:
-            # Visualizing code here
-            pass
         break
     except:
         print("You need a valid integer")
+
+if choice == 1:
+    import loading
+
+elif choice == 2:
+    import create
+else:
+    import visual

@@ -1,22 +1,33 @@
-from quizpy import *
 import xml.etree.ElementTree as ET
-import time
-tree = ET.parse('example_quiz.xml')
+
+tree = ET.parse(input("Input XML file name of quiz: ").strip())
 root = tree.getroot()
-ET.tostring(root, encoding='utf8').decode('utf8')
-for child in root:
-    print(child.tag, child.attrib)
 
-for name in root.iter('question'):
-    print(question.attrib)
+# Goal: test efficiency of algorithm on other quiz xml files
 
-print([elem.tag for elem in root.iter()])
+score = 0
+questions = []
+answers = []
 
-"""print(root[1][1][0].text)
-userAnswer = input()
-if (userAnswer.lower() == root[1][10][0].text.lower()):
-    print("Correct!")
-else:
-    print("Incorrect")
-"""
+# Gets all questions in xml file
+for questiontext in root.iter('questiontext'):
+    questions.append(questiontext[0].text.strip())
 
+# Gets all correct answers for corresponding questions in xml file
+for answer in root.iter('correctfeedback'):
+    answers.append(answer[0].text.strip())
+
+print("This quiz is scored 0 out of " + str(len(answers)) + "\n")
+
+
+# Starts free response portion
+for k in range(0, len(answers)):
+    print(questions[k])
+    userAns = input()
+    if userAns == answers[k]:
+        score += 1
+        print("\nCorrect!")
+    else:
+        print("\nIncorrect!")
+
+print("\nYour score is " + str(score))
