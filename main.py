@@ -1,4 +1,4 @@
-
+from create import exportXML, makeQuestions
 while True:
     try:
         choice = int(input("""What action would you like to perform?:
@@ -14,6 +14,7 @@ if choice == 1:
     import loading
 
 elif choice == 2:
-    import create
+    quizName = input("Input the name of your quiz")
+    exportXML(makeQuestions(), quizName)
 else:
     import visual
