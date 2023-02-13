@@ -59,7 +59,7 @@ def makeQuestions():
                 break
             elif done == 2: # not done
                 clearScreen()
-    return q # the quiz object
+    return q
 
 
 def exportXML(qz, fname):
@@ -117,6 +117,3 @@ def clearScreen():
         os.system("clear")
     else: # windows
         os.system("cls")
-
-exportXML(makeQuestions(), "test")
-
