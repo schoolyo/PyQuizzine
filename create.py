@@ -2,7 +2,6 @@ from quizpy import Quiz, Category, MultipleChoice, ShortAnswer, Numerical
 import os
 import re
 
-
 def makeQuestions():
     q = Quiz()
     qName = input("What is the name of the quiz?: ")
@@ -98,3 +97,6 @@ def clearScreen():
         os.system("clear")
     else:
         os.system("cls")
+
+exportXML(makeQuestions(), "test")
+
