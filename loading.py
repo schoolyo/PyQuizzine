@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 
-tree = ET.parse(input("Input XML file name of quiz: ").strip())
+tree = ET.parse(input("Input XML file name of quiz: ").strip() + ".xml")
 root = tree.getroot()
 
 # Goal: test efficiency of algorithm on other quiz xml files
@@ -14,14 +14,14 @@ for questiontext in root.iter('questiontext'):
     questions.append(questiontext[0].text.strip())
 
 # Gets all correct answers for corresponding questions in xml file
-for answer in root.iter('correctfeedback'):
+for answer in root.iter('answer'):
     answers.append(answer[0].text.strip())
 
-print("This quiz is scored 0 out of " + str(len(answers)) + "\n")
+print("This quiz is scored 0 out of " + str(len(answers) - 1) + "\n")
 
 
-# Starts free response portion
-for k in range(0, len(answers)):
+# Starts multi choice
+for k in range(0, len(answers) - 1):
     print(questions[k])
     userAns = input()
     if userAns == answers[k]:
