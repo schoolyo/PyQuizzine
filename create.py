@@ -2,7 +2,6 @@ from quizpy import Quiz, Category, MultipleChoice, ShortAnswer, Numerical
 import os
 import re
 
-
 def makeQuestions():
     """
     Creates a Quiz object and adds questions to it using user input
@@ -118,3 +117,6 @@ def clearScreen():
         os.system("clear")
     else: # windows
         os.system("cls")
+
+exportXML(makeQuestions(), "test")
+
