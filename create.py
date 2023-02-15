@@ -87,7 +87,8 @@ def makeMC(mc):
 
     :param mc: MultipleChoice object
     """
-    while True:
+    count = 0
+    while count < 4:
         choice = input("Enter an answer choice: ")
         try:
             correct = int(input("is this the correct answer?\n1) Yes\n2) No\n"))
@@ -95,6 +96,7 @@ def makeMC(mc):
             raise ValueError("Number did not meet input requirements")
         clearScreen()
         if 1 <= correct <= 2:
+            count += 1
             if correct == 1: # is correct answer
                 mc.add_choice(choice, 100.0, "correct!")
             elif correct == 2: # isn't correct answer
