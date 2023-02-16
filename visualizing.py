@@ -2,9 +2,70 @@ import matplotlib.pyplot as plt
 import csv
 import pandas as pd
 
-data = pd.read_csv("csv_quiz_example_format.csv")
-numRows = len(data.axes[0])
-numCols = len(data.axes[1])
-percent = sum([i for i in data.iloc[:, 4] if i == 1]) / numRows * 100 # list comprehension to find percent of students correct
-print(f"{percent:.2f}% got the question correct") # print the percentage to 2 decimals places
+
+class Results:
+    """
+    Structure the quiz csv results data
+    ...
+    Attributes:
+    data : DataFrame representation of the quiz csv file
+    numRows : integer number of rows in data
+    numCols : integer number of columns in data
+    """
+    def __init__(self, csv_file):
+        """
+        Inits Results with a csv file and creates attributes data, numRows, and numCols
+        Args:
+            csv_file: String name of the csv file that holds the quiz data
+        """
+        self.data = pd.read_csv(csv_file)
+        self.numRows = len(self.data.axes[0])
+        self.numCols = len(self.data.axes[1])
+
+    def get_num_rows(self):
+        """
+        Gets the number of rows in data
+        Returns:
+            An int numRows
+        """
+        return self.numRows
+
+    def get_num_cols(self):
+        """
+        Gets the number of columns in data
+        Returns:
+            An int numCols
+        """
+        return self.numCols
+
+    def get_avg_time(self):
+        """
+        Gets the average time the quiz was taken in
+        Returns:
+            A float representing the average time in seconds
+        """
+        return sum([i for i in self.data.iloc[:, "time"] if i > 0]) / self.numRows
+
+    def get_avg_score(self):
+        """
+        Gets the average score of all students who took the quiz
+        Returns:
+            A float representing the average score as a percentage
+        """
+        return sum([i for i in self.data.iloc[:, "percent score"]]) / self.numRows
+
+    def question_stats(self, num):
+        """
+        Gets the amount of correct and incorrect answers for a specific question
+        Args:
+            num: An integer for the question number wanted. num=1 would be the first question.
+        Returns:
+            A tuple in (percent correct, percent incorrect) format, where both are rounded to 2 decimal places
+        """
+        correct = round(sum([i for i in self.data.iloc[:, (num+2)] if i == 1]) / self.numRows * 100, 2)
+        incorrect = round(sum([i for i in self.data.iloc[:, (num+2)] if i == 0]) / self.numRows * 100, 2)
+        return correct, incorrect
+
+
+
 
