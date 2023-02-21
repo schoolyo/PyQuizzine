@@ -5,19 +5,26 @@ root = tree.getroot()
 
 # Goal: test efficiency of algorithm on other quiz xml files
 # Figure out how to print certain questions for each
+count = 1
 score = 0
 questions = []
 answers = []
 name = input("What is your name?: ")
 # Gets all questions in xml file
+
 for questiontext in root.iter('questiontext'):
     questions.append(questiontext[0].text.strip())
 
-print(root[0][1].text)
-
+print(questions)
 # Gets all correct answers for corresponding questions in xml file
+
+
+
 for answer in root.iter('answer'):
     answers.append(answer[0].text.strip())
+print(answers)
+
+
 
 print("This quiz is scored 0 out of " + str(len(answers) - 1) + "\n")
 
@@ -25,10 +32,12 @@ print("This quiz is scored 0 out of " + str(len(answers) - 1) + "\n")
 # Starts multi choice
 start = time.time()
 for k in range(0, len(questions)):
-    #print("Questions: " + str(questions))
-    #print("Answers: " + str(answers))
-    
+
     print(questions[k])
+    for i in range(0, len(answers)):
+        if i % 4 != 0 or i == 0:
+            print(str(count) + ")" + " " + answers[i])
+            count += 1
     userAns = input()
     
     for i in range(0, len(answers)):
@@ -37,4 +46,4 @@ for k in range(0, len(questions)):
             print("\nCorrect!")
 
 print("\nYour score is " + str(score))
-print("You took " + str(time.time() - start)  + " seconds")
+print("You took " + str(round(time.time() - start))  + " seconds")
