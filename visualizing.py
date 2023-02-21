@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import csv
 import pandas as pd
+from tkinter import *
 
 
 class Results:
@@ -21,24 +22,11 @@ class Results:
         self.data = pd.read_csv(csv_file)
         self.numRows = len(self.data.axes[0])
         self.numCols = len(self.data.axes[1])
+        self.names = self.data.iloc[:, 0]
+        self.times = self.data.iloc[:, 1]
+        self.scores = self.data.iloc[:, 2]
 
-    def get_num_rows(self):
-        """
-        Gets the number of rows in data
-        Returns:
-            An int numRows
-        """
-        return self.numRows
-
-    def get_num_cols(self):
-        """
-        Gets the number of columns in data
-        Returns:
-            An int numCols
-        """
-        return self.numCols
-
-    def get_avg_time(self):
+    def avg_time(self):
         """
         Gets the average time the quiz was taken in
         Returns:
@@ -46,7 +34,7 @@ class Results:
         """
         return sum([i for i in self.data.iloc[:, "time"] if i > 0]) / self.numRows
 
-    def get_avg_score(self):
+    def avg_score(self):
         """
         Gets the average score of all students who took the quiz
         Returns:
@@ -67,5 +55,7 @@ class Results:
         return correct, incorrect
 
 
-
-
+def show_data():
+    window = Tk()
+    window.title("PyQuizzine")
+    window.geometry("500x500")
