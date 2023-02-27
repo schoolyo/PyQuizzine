@@ -1,6 +1,95 @@
 from quizpy import Quiz, Category, MultipleChoice, ShortAnswer, Numerical
 import os
 import re
+import tkinter as tk
+from tkinter import font as tkfont
+
+class QuizApp(tk.Tk):
+
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        # the container is where we'll pack the current page
+        self.container = tk.Frame(self)
+        self.container.pack(side="top", fill="both", expand=True)
+        self.current_frame = None
+
+        self.show_frame("StartPage")
+
+    def show_frame(self, page_name):
+        """Show a frame for the given page name"""
+
+        # destroy the old page, if there is one
+        if self.current_frame is not None:
+            self.current_frame.destroy()
+
+        # create the new page and pack it in the container
+        cls = globals()[page_name]
+        self.current_frame = cls(self.container, self)
+        self.current_frame.pack(fill="both", expand=True)
+
+
+class Page(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+    def show_frame(self, page_name):
+"""
+TO DO:
+finish the Page class
+make other pages child objects of the Page class
+make the show_frame method actually work
+"""
+
+
+
+class StartPage(tk.Frame):
+    def __int__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="This is the start page", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        button1 = tk.Button(self, text="Multiple Choice",
+                            command=lambda: controller.show_frame("MakeMC"))
+        button2 = tk.Button(self, text="Numerical",
+                            command=lambda: controller.show_frame("MakeNumerical"))
+        button3 = tk.Button(self, text="Export Quiz",
+                            command=lambda: controller.show_frame("ExportXML"))
+        button1.pack()
+        button2.pack()
+        button3.pack()
+
+
+class MakeMC(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="This is page 1", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Go to the start page",
+                           command=lambda: controller.show_frame("StartPage"))
+        button.pack()
+
+class MakeNumerical(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="This is page 2", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Go to the start page",
+                           command=lambda: controller.show_frame("StartPage"))
+        button.pack()
+
+class ExportXML(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="This is page 3", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Go to the start page",
+                           command=lambda: controller.show_frame("StartPage"))
+        button.pack()
 
 def makeQuestions():
     """
@@ -119,3 +208,6 @@ def clearScreen():
         os.system("clear")
     else: # windows
         os.system("cls")
+
+app = QuizApp()
+app.mainloop()

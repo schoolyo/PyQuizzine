@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import csv
 import pandas as pd
+import tkinter as tk
 from tkinter import *
 
 
@@ -53,6 +54,9 @@ class Results:
         correct = round(sum([i for i in self.data.iloc[:, (num+2)] if i == 1]) / self.numRows * 100, 2)
         incorrect = round(sum([i for i in self.data.iloc[:, (num+2)] if i == 0]) / self.numRows * 100, 2)
         return correct, incorrect
+
+
+class Page(tk.Frame):
 
 
 def show_data():
