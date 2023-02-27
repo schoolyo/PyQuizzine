@@ -1,24 +1,26 @@
 from create import exportXML, makeQuestions
 import tkinter as tk
-class App(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.pack()
+def show_entry_fields():
+    print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
 
-# create the application
-myapp = App()
+master = tk.Tk()
 
-#
-# here are method calls to the window manager class
-#
-myapp.master.title("PyQuizzine")
-myapp.master.maxsize(1000, 400)
+tk.Label(master, text="Which option would you like to perform?").grid(row=0)
+tk.Label(master, text="First Name").grid(row=1)
+tk.Label(master, text="Last Name").grid(row=3)
 
-tk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
+e1 = tk.Entry(master)
+e2 = tk.Entry(master)
 
-
-# start the program
-myapp.mainloop()
+e1.grid(row=2, column=0)
+e2.grid(row=4, column=0)
+tk.Button(master, 
+          text='Show', command=show_entry_fields).grid(row=3, 
+                                                       column=1, 
+                                                       sticky=tk.W, 
+                                                       pady=4)
+tk.Label(text=e1.get()).grid(column=0, row=5)
+master.mainloop()
 
 while True:
     try:
