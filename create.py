@@ -9,45 +9,40 @@ class QuizApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-        # the container is where we'll pack the current page
-        self.container = tk.Frame(self)
-        self.container.pack(side="top", fill="both", expand=True)
-        self.current_frame = None
+        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+
+        # the container is where we'll stack a bunch of frames
+        # on top of each other, then the one we want visible
+        # will be raised above the others
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (StartPage, MakeMC, MakeNumerical, ExportXML):
+            page_name = F.__name__
+            frame = F(container, self)
+            self.frames[page_name] = frame
+
+            # put all of the pages in the same location;
+            # the one on the top of the stacking order
+            # will be the one that is visible.
+            frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("StartPage")
 
     def show_frame(self, page_name):
         """Show a frame for the given page name"""
-
-        # destroy the old page, if there is one
-        if self.current_frame is not None:
-            self.current_frame.destroy()
-
-        # create the new page and pack it in the container
-        cls = globals()[page_name]
-        self.current_frame = cls(self.container, self)
-        self.current_frame.pack(fill="both", expand=True)
-
-
-class Page(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-    def show_frame(self, page_name):
-"""
-TO DO:
-finish the Page class
-make other pages child objects of the Page class
-make the show_frame method actually work
-"""
-
+        frame = self.frames[page_name]
+        frame.tkraise()
 
 
 class StartPage(tk.Frame):
-    def __int__(self, parent, controller):
+    def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="This is the start page", font=controller.title_font)
+        label = tk.Label(self, text="What question type do you want to create?", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
 
         button1 = tk.Button(self, text="Multiple Choice",
@@ -58,34 +53,36 @@ class StartPage(tk.Frame):
                             command=lambda: controller.show_frame("ExportXML"))
         button1.pack()
         button2.pack()
-        button3.pack()
+        button3.pack(side="bottom")
 
 
 class MakeMC(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="This is page 1", font=controller.title_font)
+        label = tk.Label(self, text="MakeMC", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
         button.pack()
+
 
 class MakeNumerical(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="This is page 2", font=controller.title_font)
+        label = tk.Label(self, text="Make Numerical", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
         button.pack()
 
+
 class ExportXML(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="This is page 3", font=controller.title_font)
+        label = tk.Label(self, text="Export XML", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
@@ -209,5 +206,6 @@ def clearScreen():
     else: # windows
         os.system("cls")
 
-app = QuizApp()
+app = QuizApp(className=" PyQuizzine")
+app.geometry("800x400")
 app.mainloop()
