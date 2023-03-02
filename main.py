@@ -1,7 +1,11 @@
-from create import exportXML, makeQuestions
+from create import *
 import tkinter as tk
+import os
 def show_entry_fields():
     print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
+
+def helloCallBack():
+    os.system('python create.py')
 
 master = tk.Tk()
 
@@ -14,21 +18,20 @@ e2 = tk.Entry(master)
 
 e1.grid(row=2, column=0)
 e2.grid(row=4, column=0)
-tk.Button(master, 
-          text='Show', command=show_entry_fields).grid(row=3, 
-                                                       column=1, 
-                                                       sticky=tk.W, 
-                                                       pady=4)
-tk.Label(text=e1.get()).grid(column=0, row=5)
-master.mainloop()
 
+tk.Label(text=e1.get()).grid(column=0, row=5)
+
+B = tk.Button(master, text="this", command=lambda: helloCallBack()).grid(column=1, row=0)
+              
+master.mainloop()
+"""
 while True:
     try:
-        choice = int(input("""What action would you like to perform?:
+        choice = int(input(""What action would you like to perform?:
             1) Loading
             2) Creating
             3) Visualizing
-            """))
+            ""))
         break
     except:
         print("You need a valid integer")
@@ -41,3 +44,4 @@ elif choice == 2:
     exportXML(makeQuestions(), quizName)
 else:
     import visual
+"""
