@@ -10,10 +10,8 @@ class QuizApp(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+        self.quiz = Quiz()
 
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
-        # will be raised above the others
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
@@ -62,6 +60,8 @@ class MakeMC(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="MakeMC", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
+        e1 = tk.Entry(parent, bg="#000000") # need to get the entry fields to show up
+        e1.grid(row=0, column=0)
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
         button.pack()
