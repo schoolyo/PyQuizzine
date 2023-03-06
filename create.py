@@ -14,8 +14,7 @@ class QuizApp(tk.Tk):
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+
 
         self.frames = {}
         for F in (StartPage, MakeMC, MakeNumerical, ExportXML):
@@ -36,41 +35,75 @@ class QuizApp(tk.Tk):
         frame.tkraise()
 
 
-class StartPage(tk.Frame):
+class StartPage(tk.Frame): # need to initialize the quiz object before going to make questions
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        for i in range(5):
+            self.rowconfigure(i, weight=1)
+            self.columnconfigure(i, weight=1)
         label = tk.Label(self, text="What question type do you want to create?", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-
         button1 = tk.Button(self, text="Multiple Choice",
                             command=lambda: controller.show_frame("MakeMC"))
         button2 = tk.Button(self, text="Numerical",
                             command=lambda: controller.show_frame("MakeNumerical"))
         button3 = tk.Button(self, text="Export Quiz",
                             command=lambda: controller.show_frame("ExportXML"))
-        button1.pack()
-        button2.pack()
-        button3.pack(side="bottom")
+        l1 = tk.Label(self, text="What is the name of the quiz?")
+        e1 = tk.Entry(self)
+        label.grid(row=0, column=2, rowspan=2)
+        l1.grid(row=2, column=2, sticky="E")
+        e1.grid(row=2, column=3, sticky="W") # making entry for quiz name
+        button1.grid(row=3, column=2)
+        button2.grid(row=4, column=2)
+        button3.grid(row=5, column=2)
 
 
 class MakeMC(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        def save():
+            controller.quiz # need to save the text in the entry boxes before going back to start page
+        for i in range(5):
+            self.rowconfigure(i, weight=1)
+            self.columnconfigure(i, weight=1)
         label = tk.Label(self, text="MakeMC", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        e1 = tk.Entry(parent, bg="#000000") # need to get the entry fields to show up
-        e1.grid(row=0, column=0)
+        e1 = tk.Entry(self)
+        l1 = tk.Label(self, text="Correct Answer")
+        e2 = tk.Entry(self)
+        l2 = tk.Label(self, text="Incorrect Answer")
+        e3 = tk.Entry(self)
+        l3 = tk.Label(self, text="Incorrect Answer")
+        e4 = tk.Entry(self)
+        l4 = tk.Label(self, text="Incorrect Answer")
+        e5 = tk.Entry(self)
+        l5 = tk.Label(self, text="Question")
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
-        button.pack()
+        label.grid(row=0, column=2, pady=10)
+        button.grid(row=0, column=0, pady=2)
+        l5.grid(row=0, column=1, sticky="E")
+        e5.grid(row=0, column=1, sticky="W")
+        l1.grid(row=1, column=1, sticky="E")
+        e1.grid(row=1, column=2, sticky="W")
+        l2.grid(row=2, column=1, sticky="E")
+        e2.grid(row=2, column=2, sticky="W")
+        l3.grid(row=3, column=1, sticky="E")
+        e3.grid(row=3, column=2, sticky="W")
+        l4.grid(row=4, column=1, sticky="E")
+        e4.grid(row=4, column=2, sticky="W")
+
+
 
 
 class MakeNumerical(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        for i in range(5):
+            self.rowconfigure(i, weight=1)
+            self.columnconfigure(i, weight=1)
         label = tk.Label(self, text="Make Numerical", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         button = tk.Button(self, text="Go to the start page",
@@ -82,6 +115,9 @@ class ExportXML(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        for i in range(5):
+            self.rowconfigure(i, weight=1)
+            self.columnconfigure(i, weight=1)
         label = tk.Label(self, text="Export XML", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         button = tk.Button(self, text="Go to the start page",
@@ -207,5 +243,5 @@ def clearScreen():
         os.system("cls")
 
 app = QuizApp(className=" PyQuizzine")
-app.geometry("800x400")
+app.geometry("800x600")
 app.mainloop()
