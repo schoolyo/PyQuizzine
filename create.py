@@ -4,6 +4,7 @@ import re
 import tkinter as tk
 from tkinter import font as tkfont
 
+
 class QuizApp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -15,9 +16,8 @@ class QuizApp(tk.Tk):
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
 
-
         self.frames = {}
-        for F in (StartPage, MakeMC, MakeNumerical, ExportXML):
+        for F in (CreateQuiz, StartPage, MakeMC, MakeNumerical, ExportXML):
             page_name = F.__name__
             frame = F(container, self)
             self.frames[page_name] = frame
@@ -27,7 +27,7 @@ class QuizApp(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("StartPage")
+        self.show_frame("CreateQuiz")
 
     def show_frame(self, page_name):
         """Show a frame for the given page name"""
@@ -35,7 +35,30 @@ class QuizApp(tk.Tk):
         frame.tkraise()
 
 
-class StartPage(tk.Frame): # need to initialize the quiz object before going to make questions
+class CreateQuiz(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        def save(name):
+            controller.quiz = controller.quiz.add_category(name)
+            controller.show_frame("StartPage")
+        for i in range(5):
+            self.rowconfigure(i, weight=1)
+            self.columnconfigure(i, weight=1)
+
+        label = tk.Label(self, text="First, you need to initialize some attributes of your quiz", font=controller.title_font)
+        l1 = tk.Label(self, text="Quiz Name")
+        e1 = tk.Entry(self)
+        button = tk.Button(self, text="Initialize Quiz", command=lambda: save(e1.get()))
+        label.grid(row=0, column=1, columnspan=2)
+        l1.grid(row=2, column=0, sticky="E")
+        e1.grid(row=2, column=1, sticky="W")
+        button.grid(row=3, column=1)
+
+
+
+class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -49,11 +72,7 @@ class StartPage(tk.Frame): # need to initialize the quiz object before going to 
                             command=lambda: controller.show_frame("MakeNumerical"))
         button3 = tk.Button(self, text="Export Quiz",
                             command=lambda: controller.show_frame("ExportXML"))
-        l1 = tk.Label(self, text="What is the name of the quiz?")
-        e1 = tk.Entry(self)
         label.grid(row=0, column=2, rowspan=2)
-        l1.grid(row=2, column=2, sticky="E")
-        e1.grid(row=2, column=3, sticky="W") # making entry for quiz name
         button1.grid(row=3, column=2)
         button2.grid(row=4, column=2)
         button3.grid(row=5, column=2)
@@ -63,8 +82,9 @@ class MakeMC(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
         def save():
-            controller.quiz # need to save the text in the entry boxes before going back to start page
+            controller.quiz # need to save the entries to a multiple choice object, then append to quiz object
         for i in range(5):
             self.rowconfigure(i, weight=1)
             self.columnconfigure(i, weight=1)
@@ -79,10 +99,13 @@ class MakeMC(tk.Frame):
         l4 = tk.Label(self, text="Incorrect Answer")
         e5 = tk.Entry(self)
         l5 = tk.Label(self, text="Question")
-        button = tk.Button(self, text="Go to the start page",
+        e6 = tk.Entry(self)
+        l6 = tk.Label(self, text="Points for getting the question correct") # need to add this entry for the points per question
+        button1 = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
+        button2 = tk.Button(self, text="Save Question") # need to add command to the submit button
         label.grid(row=0, column=2, pady=10)
-        button.grid(row=0, column=0, pady=2)
+        button1.grid(row=0, column=0, pady=2)
         l5.grid(row=0, column=1, sticky="E")
         e5.grid(row=0, column=1, sticky="W")
         l1.grid(row=1, column=1, sticky="E")
