@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import csv
 import pandas as pd
 import tkinter as tk
-from tkinter import *
 
 
 class Results:
@@ -56,10 +55,11 @@ class Results:
         return correct, incorrect
 
 
-class Page(tk.Frame):
-
-
-def show_data():
-    window = Tk()
-    window.title("PyQuizzine")
-    window.geometry("500x500")
+"""
+To Do:
+create gui pages
+maybe need to create initialization initializes using a page class, so it can create for questions that vary in number
+figure out how to embed charts in the tkinter frame
+maybe ask Talan about putting the question titles as the column headers in csv file (q1, q2, etc.) since I've already 
+    put in question titles
+"""
