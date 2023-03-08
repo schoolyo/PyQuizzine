@@ -2,12 +2,16 @@ import xml.etree.ElementTree as ET
 import time
 tree = ET.parse(input("Input XML file name of quiz: ").strip() + ".xml")
 root = tree.getroot()
-file1 = open('data.csv', 'w')
+from csv import writer
+try:
+    file1 = open('data.csv', 'w')
+except:
+    file1 = open('data.csv', 'a')
 file1.write("\n")
 questCount = 0
-
+data = []
 name = input("What is your name?: ")
-file1.write(name + ",")
+
 # create CSV file, student name, quiz time, percent, 1 or 0 for questions correct
 
 
@@ -33,28 +37,32 @@ print("This quiz is scored 0 out of " + str(round(len(answers) / 4)) + "\n")
 
 # Starts multi choice
 start = time.time()
-for k in range(0, len(questions) / 4):
+for k in range(0, len(questions)):
     count = 1
 
     print(questions[k])
-    for i in range(i, k + 4):
+    for i in range(0, len(answers)):
         if "_" in answers[i]:
-            print(str(count) + ")" + " " + str(answers[i][:-1])
+            print(str(str(answers[i][:-1])))
         else: # What the hell man!
-            print(str(count) + ")" + " " + answers[i])
+            print(str(answers[i]))
     count += 1 
     userAns = input()
 
-for i in range(0, len(answers)):
-        if userAns.lower() + "_" in answers.lower():
+for i in range(0, len(questions)):
+        if userAns.lower() + "_" == answers[i].lower():
             score += 1
             print("\nCorrect!")
-            file1.write("1,")
+            data.append("1,")
         else:
-            file1.write("0,")
+            data.append("0,") 
 print("\nYour score is " + str(score))
 time = time.time() - start
-print("You took " + str(round(time))  + " seconds")
-file1.write(str(round(time)) + ",")
-file1.write(str(len(questions - 1) / score) + "%")
+if score == 0:
+    file1.write(name + "," + str(round(time)) + "," + "0%")
+else:
+    file1.write(name + "," + str(round(time)) + "," + str(round((len(questions) / score) * 100)) + ",")
+for i in range(0, len(data)):
+            file1.write(data[i] + ",")
+file1.write("\n")
 file1.close()
