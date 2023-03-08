@@ -101,7 +101,7 @@ def makeMC(mc):
         if 1 <= correct <= 2:
             count += 1
             if correct == 1: # is correct answer
-                mc.add_choice(choice, 100.0, "correct!")
+                mc.add_choice(choice + "_", 100.0, "correct!")
             elif correct == 2: # isn't correct answer
                 mc.add_choice(choice, 0.0, "incorrect!")
         try:
