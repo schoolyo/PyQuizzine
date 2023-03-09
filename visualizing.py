@@ -52,6 +52,7 @@ class Results:
         Returns:
             A tuple in (percent correct, percent incorrect) format, where both are rounded to 2 decimal places
         """
+        print(self.numRows)
         correct = round(sum([i for i in self.data.iloc[:, (num+2)] if i == 1]) / self.numRows * 100, 2)
         incorrect = 100.0 - correct
         return [correct, incorrect]
@@ -208,7 +209,6 @@ class QuestionStats(tk.Frame):
                 fig = Figure(figsize=(5, 5), dpi=100)
                 fig, ax = plt.subplots()
                 ax.pie([self.stats[0], self.stats[1]], labels=["Correct", "Incorrect"], colors=["blue", "red"])
-                print(self.stats)
                 self.canvas = FigureCanvasTkAgg(fig, master=controller)
                 self.canvas.draw()
                 self.canvas.get_tk_widget().pack()
@@ -237,7 +237,8 @@ class QuestionStats(tk.Frame):
         button2.grid(row=0, column=0, sticky="NW")
 
 
-app = QuizApp(className="PyQuizzine", csv="csv_quiz_example_format.csv")
+name = input("What is the file name?\n")
+app = QuizApp(className="PyQuizzine", csv=name)
 app.geometry("500x500")
 app.mainloop()
 
