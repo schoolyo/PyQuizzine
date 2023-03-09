@@ -1,13 +1,14 @@
 import xml.etree.ElementTree as ET
 import time
-tree = ET.parse(input("Input XML file name of quiz: ").strip() + ".xml")
+
+fileName = input("Input XML file name of quiz: ").strip()
+tree = ET.parse(fileName + ".xml")
 root = tree.getroot()
-from csv import writer
+
 try:
-    file1 = open('data.csv', 'a')
+    file1 = open(fileName + ".csv", 'a')
 except:
-    file1 = open('data.csv', 'w')
-#file1.write("\n")
+    file1 = open(fileName + ".csv", 'w')
 questCount = 0
 data = []
 name = input("What is your name?: ")
@@ -56,16 +57,23 @@ for i in range(0, len(questions)):
             data.append("1") 
         else:
             data.append("0")
-print("\nYour score is " + str(score))
+try:
+    score = str(round((len(questions) / score) * 100))
+except ZeroDivisionError:
+    score = "0"
+print("\nYour score is " + score + "%")
 time = time.time() - start
 print("You took " + str(round(time)) + "s")
-if score == 0:
+"""if score == 0:
     file1.write(name + "," + str(round(time)) + ",0")
     for i in range(0, len(data)):
-        file1.write(data[i] + ",")
+        file1.write("," + data[i])
 else:
     file1.write(name + "," + str(round(time)) + "," + str(round((len(questions) / score) * 100)))
     for i in range(0, len(data)):
-        file1.write("," + data[i])
+        file1.write("," + data[i])"""
+file1.write(f"{name},{round(time)},{score}")
+for i in range(0, len(data)):
+    file1.write(f",{data[i]}")
 file1.write("\n")
 file1.close()

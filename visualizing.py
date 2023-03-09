@@ -68,14 +68,14 @@ class QuizApp(tk.Tk):
         frames : array of the page names
         results : instance of Results class based off of csv file
     """
-    def __init__(self, csv="csv_quiz_example_format.csv", *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title_font = tkfont.Font(family="Helvetica", size=18, weight="bold", slant="italic")
         self.font = tkfont.Font(family="Helvetica", size=11)
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         self.frames = {}
-        self.results = Results(csv_file=csv)
+        self.results = Results("math.csv")
         for F in (Initialize, StartPage, QuizStats, QuestionStats):
             page_name = F.__name__
             frame = F(container, self)
@@ -158,6 +158,7 @@ class QuizStats(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        print(controller)
         for i in range(5):
             self.grid_rowconfigure(i, weight=1)
             self.grid_columnconfigure(i, weight=1)
@@ -237,8 +238,8 @@ class QuestionStats(tk.Frame):
         button2.grid(row=0, column=0, sticky="NW")
 
 
-name = input("What is the file name?\n")
-app = QuizApp(className="PyQuizzine", csv=name)
+#name = input("What is the file name?\n")
+app = QuizApp(className="PyQuizzine")
 app.geometry("500x500")
 app.mainloop()
 
