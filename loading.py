@@ -7,7 +7,7 @@ try:
     file1 = open('data.csv', 'w')
 except:
     file1 = open('data.csv', 'a')
-file1.write("\n")
+#file1.write("\n")
 questCount = 0
 data = []
 name = input("What is your name?: ")
@@ -59,10 +59,10 @@ for i in range(0, len(questions)):
 print("\nYour score is " + str(score))
 time = time.time() - start
 if score == 0:
-    file1.write(name + "," + str(round(time)) + "," + "0%")
+    file1.write(name + "," + str(round(time)) + ",0")
 else:
     file1.write(name + "," + str(round(time)) + "," + str(round((len(questions) / score) * 100)) + ",")
 for i in range(0, len(data)):
-            file1.write(data[i] + ",")
+    file1.write(data[i] + ",")
 file1.write("\n")
 file1.close()
